@@ -415,7 +415,8 @@ module Net; module SSH; module Connection
     #   matches = ssh.exec!("grep something /some/files")
     #
     # the returned string has an exitstatus method to query it's exit satus
-    def exec!(command, status: nil, &block)
+    def exec!(command, options = { status: nil }, &block)
+      status = options[:status] || nil
       block_or_concat = block || Proc.new do |ch, type, data|
         ch[:result] ||= ""
         ch[:result] << data
@@ -541,7 +542,7 @@ module Net; module SSH; module Connection
 
       # Read all pending packets from the connection and dispatch them as
       # appropriate. Returns as soon as there are no more pending packets.
-      def dispatch_incoming_packets(raise_disconnect_errors: true)
+      def dispatch_incoming_packets(options = { raise_disconnect_errors: true })
         while packet = transport.poll_message
           unless MAP.key?(packet.type)
             raise Net::SSH::Exception, "unexpected response #{packet.type} (#{packet.inspect})"
@@ -551,7 +552,7 @@ module Net; module SSH; module Connection
         end
       rescue
         force_channel_cleanup_on_close if closed?
-        raise if raise_disconnect_errors || !$!.is_a?(Net::SSH::Disconnect)
+        raise if options[:raise_disconnect_errors] || !$!.is_a?(Net::SSH::Disconnect)
       end
 
       # Returns the next available channel id to be assigned, and increments
