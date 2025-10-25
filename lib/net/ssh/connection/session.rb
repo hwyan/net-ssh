@@ -373,7 +373,8 @@ module Net; module SSH; module Connection
     #       puts data
     #     end
     #   end
-    def exec(command, status: nil, &block)
+    def exec(command, options = { status: nil }, &block)
+      status = options[:status] || nil
       open_channel do |channel|
         channel.exec(command) do |ch, success|
           raise "could not execute command: #{command.inspect}" unless success
