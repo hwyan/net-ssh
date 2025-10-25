@@ -155,7 +155,9 @@ module Net; module SSH; module Authentication
     # seconds.
     # If confirm is true, confirmation will be required for each agent signing
     # operation.
-    def add_identity(priv_key, comment, lifetime: nil, confirm: false)
+    def add_identity(priv_key, comment, options = { lifetime: nil, confirm: false })
+      lifetime = options[:lifetime] || nil
+      confirm = options[:confirm] || false
       constraints = Buffer.new
       if lifetime
         constraints.write_byte(SSH_AGENT_CONSTRAIN_LIFETIME)
