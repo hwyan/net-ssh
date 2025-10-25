@@ -67,8 +67,7 @@ module Net; module SSH; module Transport
           factory.open(@host, @port, options)
         else
           debug { "establishing connection to #{@host}:#{@port}" }
-          Socket.tcp(@host, @port, @bind_address, nil,
-                     connect_timeout: options[:timeout])
+          Socket.tcp(@host, @port, @bind_address, nil)
         end
 
       @socket.extend(PacketStream)

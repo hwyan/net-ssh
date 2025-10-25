@@ -70,8 +70,7 @@ module Net; module SSH; module Proxy
     protected
 
       def establish_connection(connect_timeout)
-        Socket.tcp(proxy_host, proxy_port, nil, nil,
-                   connect_timeout: connect_timeout)
+        Socket.tcp(proxy_host, proxy_port, nil, nil)
       end
 
       def parse_response(socket)

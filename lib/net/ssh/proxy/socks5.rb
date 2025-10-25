@@ -63,8 +63,7 @@ module Net
         # Return a new socket connected to the given host and port via the
         # proxy that was requested when the socket factory was instantiated.
         def open(host, port, connection_options)
-          socket = Socket.tcp(proxy_host, proxy_port, nil, nil,
-                              connect_timeout: connection_options[:timeout])
+          socket = Socket.tcp(proxy_host, proxy_port, nil, nil)
 
           methods = [METHOD_NO_AUTH]
           methods << METHOD_PASSWD if options[:user]
