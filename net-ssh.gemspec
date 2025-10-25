@@ -1,5 +1,5 @@
 # coding: utf-8
-require_relative 'lib/net/ssh/version'
+require File.expand_path("../lib/net/ssh/version", __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = "net-ssh"
